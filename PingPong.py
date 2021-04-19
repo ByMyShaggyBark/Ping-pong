@@ -11,12 +11,12 @@ win_l = font1.render("Left won!", True, (255,25,255))
 win_r = font1.render("Right won!", True, (255,25,255))
 
 img_racket = "racket.png"
-img_tennisball = "tennis_ball.png"
+img_tennisball = "tenis_ball.png"
 
 class GameSprite(sprite.Sprite):
-   def __init__(self, player_image, player_x, player_y, player_speed, wight, height):
+   def __init__(self, player_image, player_x, player_y, player_speed, size_x, size_y):
        super().__init__()
-       self.image = transform.scale(image.load(player_image), (wight, height)) #вместе 55,55 - параметры
+       self.image = transform.scale(image.load(player_image), (size_x, size_y))
        self.speed = player_speed
        self.rect = self.image.get_rect()
        self.rect.x = player_x
@@ -39,6 +39,10 @@ class Player(GameSprite):
        if keys[K_s] and self.rect.y < win_height - 80:
            self.rect.y += self.speed
 
+l_racket = Player(img_racket, 30, 200, 4, 50, 150)
+r_racket = Player(img_racket, 430, 200, 4, 50, 150)
+ball = GameSprite(img_tennisball, 250, 250, 4, 50, 50)
+
 win_width = 500
 win_height = 500
 display.set_caption("Ping-pong")
@@ -52,6 +56,14 @@ while run:
         if e.type == QUIT:
             run = False
 
-        display.update()
+
+    l_racket.update_l()
+    r_racket.update_r()
+    ball.update()
+
+    l_racket.reset()
+    r_racket.reset()
+    ball.reset()
+    display.update()
     
     time.delay(50)
